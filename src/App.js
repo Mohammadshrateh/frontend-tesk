@@ -3,7 +3,7 @@ import Home from "./app/Home";
 
 function App() {
   return (
-    <div className="App h-100">
+    <div className="App min-height-100">
         <Home></Home>
     </div>
   );

@@ -9,6 +9,7 @@ import {
     faFolderOpen, faSignal,
     faUsers
 } from "@fortawesome/free-solid-svg-icons";
+import WorkspaceDropdown from "./WorkspaceDropdown";
 
 const SideNav = () => {
     const list = [
@@ -48,6 +49,9 @@ const SideNav = () => {
             <img className={'mb-3'} src={logo} alt="Logo"/>
             <div>
                 <div>Workapace</div>
+                <div>
+                    <WorkspaceDropdown></WorkspaceDropdown>
+                </div>
             </div>
             {
                 list.map(value => {
