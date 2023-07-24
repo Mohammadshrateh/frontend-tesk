@@ -40,7 +40,7 @@ const SideNav = () => {
     const logo = './assets/logo.svg';
     const logoGoogle = './assets/google-drive-logo-4.png';
     return (
-        <div className="sidenav d-flex flex-column position-relative" style={{width: !sideNaveOpen? '60px' : '200px', padding:  !sideNaveOpen? '14px' : '20px'}}>
+        <div className="sidenav d-flex flex-column position-relative" style={{width: !sideNaveOpen? '65px' : '200px', padding:  !sideNaveOpen? '14px' : '20px'}}>
             <div className={'sidenav-arrow'} onClick={() => {setSideNaveOpen(!sideNaveOpen)}}>
 
                 {!sideNaveOpen ? <FontAwesomeIcon icon={faAngleRight} /> : <FontAwesomeIcon icon={faAngleLeft} />}
@@ -48,9 +48,9 @@ const SideNav = () => {
 
             <img className={'mb-3'} src={logo} alt="Logo"/>
             <div>
-                <div>Workapace</div>
+                {sideNaveOpen ? <div>Workapace</div>: ''}
                 <div>
-                    <WorkspaceDropdown></WorkspaceDropdown>
+                    <WorkspaceDropdown isSideNavOpen={sideNaveOpen}></WorkspaceDropdown>
                 </div>
             </div>
             {
@@ -65,7 +65,7 @@ const SideNav = () => {
                     </div>
                 })
             }
-            <div className={'mt-3'}>
+            <div className={`mt-3 ${!sideNaveOpen ? 'empty-space' : ''}`}>
                 <div> Integrations</div>
                 <img className={'mb-3 mt-2 p-3'} src={logoGoogle} alt="Logo" style={{maxWidth: '100%', backgroundColor: '#e2e7f1'}}/>
                 <div className={'d-flex'}>
@@ -84,14 +84,15 @@ const SideNav = () => {
                     Upgrade Storage
                 </div>
 
-                <div className={'d-flex align-items-center cursor-pointer'}>
-                    <FontAwesomeIcon icon={faSignal} className={'p-2'}/>
-                    {
-                        sideNaveOpen?
-                            <div className={'sidenav-label'}>Reports</div> : ''
 
-                    }
-                </div>
+            </div>
+            <div className={'d-flex align-items-center cursor-pointer'}>
+                <FontAwesomeIcon icon={faSignal} className={'p-2'}/>
+                {
+                    sideNaveOpen?
+                        <div className={'sidenav-label'}>Reports</div> : ''
+
+                }
             </div>
         </div>
     );

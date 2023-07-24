@@ -1,9 +1,10 @@
-import React, {useRef, useState} from 'react';
-import Select from 'react-select';
+import React, {useRef} from 'react';
+import styled from 'styled-components';
+import Select from "react-select";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faArrowsUpDown} from "@fortawesome/free-solid-svg-icons";
 
-const WorkspaceDropdown = ({isSideNavOpen}) => {
+const Header = ({ userName }) => {
     const workspaces = [
             {
                 label: 'Workspace 1',
@@ -11,15 +12,15 @@ const WorkspaceDropdown = ({isSideNavOpen}) => {
                 color: '#63b9ac'
             }, {
                 label: 'Workspace 2',
-            value: 2,
+                value: 2,
                 color: '#6367b9'
             }, {
                 label: 'Workspace 3',
-            value: 3,
+                value: 3,
                 color: '#b96394'
             }, {
                 label: 'Workspace 4',
-            value: 4,
+                value: 4,
                 color: '#b98163'
             }
         ]
@@ -34,15 +35,10 @@ const WorkspaceDropdown = ({isSideNavOpen}) => {
         ) : 1;
     }
 
-    const indicatorSeparator = ({
-                                    innerProps,
-                                }) => {
-        return isSideNavOpen ? <span {...innerProps} /> : '';
-    };
     const DownChevron = ({
-                                    innerProps,
-                                }) => {
-        return isSideNavOpen ? <div {...innerProps} style={{padding: '5px'}}><FontAwesomeIcon icon={faArrowsUpDown} /></div> : '';
+                             innerProps,
+                         }) => {
+        return <FontAwesomeIcon icon={faArrowsUpDown} />;
     };
     const openDropdown = () => {
         const selectEl = ref.current;
@@ -53,11 +49,11 @@ const WorkspaceDropdown = ({isSideNavOpen}) => {
         const data = val.getValue()[0];
         return data ? (
             <div onClick={()=>{openDropdown()}} className={'align-items-center d-flex'} {...val?.innerProps}><span className={'letter'}
-                                                                                    style={{backgroundColor: data?.color}}>{data?.label[0]}</span>
+                                                                                                                   style={{backgroundColor: data?.color}}>{data?.label[0]}</span>
 
 
                 {
-                    isSideNavOpen?<div className={'dropdown-label'}>{data?.label}</div> : ''
+                   <div className={'dropdown-label'}>{data?.label}</div>
                 }
 
             </div>
@@ -65,7 +61,8 @@ const WorkspaceDropdown = ({isSideNavOpen}) => {
     }
 
     return (
-        <div className="workspace-dropdown">
+        <div className={'align-items-end border-3 border-bottom d-flex justify-content-end'} style={{padding: '15px 30px'}}>
+
             <Select
                 ref={ref}
                 styles={{ menuPortal: (base) => ({ ...base, minWidth: '140px' }) }}
@@ -73,11 +70,12 @@ const WorkspaceDropdown = ({isSideNavOpen}) => {
                 defaultValue={workspaces[0]}
                 menuPortalTarget={document.body}
                 isSearchable={false}
-                components={{DropdownIndicator: DownChevron,Option: CustomOption, ValueContainer: CustomOption2, IndicatorSeparator:indicatorSeparator }}
+                components={{Option: CustomOption, ValueContainer: CustomOption2}}
                 options={workspaces}
             />
+
         </div>
     );
 };
 
-export default WorkspaceDropdown;
+export default Header;

@@ -2,8 +2,21 @@ import React, {useState} from 'react';
 import Task from "./Task";
 import Environment from "../common/enviroments";
 import AddTask from "./AddTask";
+import Tabs from "../common/Tabs";
+import Filters from "../common/Filters";
 
 const TasksList = () => {
+    const tabs = [
+        {
+            id: 1,
+            title: 'General',
+        },
+        {
+            id: 2,
+            title: 'Tasks',
+            badgeContent: 3
+        },
+    ];
     const generateRandomId = () => {
         return Math.floor(Math.random() * 1000);
     };
@@ -63,7 +76,7 @@ const TasksList = () => {
         const randomTimestamp = Math.random() * (endDate - startDate) + startDate;
         const randomDate = new Date(randomTimestamp);
 
-        return randomDate.toDateString();
+        return randomDate;
     };
     // Generate an array of random objects
     const generateRandomArray = () => {
@@ -100,14 +113,48 @@ const TasksList = () => {
         setForceRender(!forceRender);
     }
 
+    const onFilterChange=(f)=>{
+        f = {...filter,...f}
+        setFilter(f)
+    }
+    const formatDate = (date) => {
+        const options = { month: 'long', day: 'numeric' };
+        return new Date(date).toLocaleDateString(undefined, options);
+    };
+
     // Call the generateRandomArray function to get the random object array
     const [tasks, setTasks] = useState(generateRandomArray());
+    const [filter, setFilter] = useState({});
     return (
-        <div className="tasks-list d-flex flex-column">
+        <div className="tasks-list d-flex flex-column flex-1">
 
 
-            <div className={'w-100 p-4'}>
-                {tasks.map((task, index) => (
+            <div className={'d-flex justify-content-between w-100 p-5'}>
+                <div  className={'d-flex'}>
+                    <Tabs tabs={tabs} />
+                    <div style={{width: '40px'}}></div>
+
+                    {(filter && filter.dateRange && <div className={'border border-1 filter-item m-auto p-1'}>{formatDate(filter.dateRange[0])} - {filter.dateRange[1] && formatDate(filter.dateRange[1])}</div>)}
+                </div>
+
+
+                <div>
+                    <Filters onChange={(filter)=>{onFilterChange(filter)}}></Filters>
+                </div>
+            </div>
+
+            <div className={'w-100 p-4 '}>
+                {tasks.filter(value => {
+                    let test = true;
+                    if(filter?.dateRange){
+                        if(value.date < filter.dateRange[0]){
+                            test= false;
+                        }
+                        if(filter.dateRange[1] && value.date > filter.dateRange[1]){
+                            test= false;
+                        }
+                    }return test;
+                }).map((task, index) => (
                     <Task index={index} task={task} priorityChanged={(index)=>{priorityChange(index)}}></Task>
                 ))}
             </div>
